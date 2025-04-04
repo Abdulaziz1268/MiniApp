@@ -7,7 +7,6 @@ import {
   Image,
   ToastAndroid,
   Alert,
-  Platform,
 } from "react-native"
 import TodoIcon from "../../assets/TodoIcon.png"
 import ExpenseIcon from "../../assets/ExpenseIcon.png"
@@ -24,31 +23,16 @@ const Apps = ({ navigation }) => {
       try {
         const update = await Updates.checkForUpdateAsync()
         if (update.isAvailable) {
-          Alert.alert("Update Available!", "Do you want to update now?", [
-            {
-              text: "Later",
-              onPress: () =>
-                ToastAndroid.show("update postponed", ToastAndroid.SHORT),
-            },
-            {
-              text: "Update",
-              onPress: async () => {
-                ToastAndroid.show("update started", ToastAndroid.SHORT)
-                try {
-                  await Updates.fetchUpdateAsync()
-                  await Updates.reloadAsync()
-                  ToastAndroid.show("successfully updated", ToastAndroid.SHORT)
-                } catch (error) {
-                  Alert.alert("Update failed!", "please try again later.")
-                  console.log(error)
-                  ToastAndroid.show("update failed", ToastAndroid.SHORT)
-                }
-              },
-            },
-          ])
+          try {
+            await Updates.fetchUpdateAsync()
+            await Updates.reloadAsync()
+            ToastAndroid.show("successfully updated", ToastAndroid.SHORT)
+          } catch (error) {
+            Alert.alert("Update failed!", "please try again later.")
+            console.log(error)
+            ToastAndroid.show("update failed", ToastAndroid.SHORT)
+          }
         }
-        if (!update.isAvailable)
-          ToastAndroid.show("your app is up to date", ToastAndroid.SHORT)
       } catch (error) {
         console.log("Error checking for updates", error)
         ToastAndroid.show(
