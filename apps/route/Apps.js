@@ -7,6 +7,7 @@ import {
   Image,
   ToastAndroid,
   Alert,
+  Platform,
 } from "react-native"
 import TodoIcon from "../../assets/TodoIcon.png"
 import ExpenseIcon from "../../assets/ExpenseIcon.png"
@@ -59,9 +60,9 @@ const Apps = ({ navigation }) => {
     checkForUpdates()
   }, [])
   return (
-    <>
+    <View style={styles.container}>
       <Text style={styles.header}>Apps</Text>
-      <View style={styles.container}>
+      <View style={styles.appsContainer}>
         {apps.map((item, index) => (
           <TouchableOpacity
             style={styles.app}
@@ -77,7 +78,7 @@ const Apps = ({ navigation }) => {
           </TouchableOpacity>
         ))}
       </View>
-    </>
+    </View>
   )
 }
 
@@ -94,15 +95,17 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     elevation: 10,
   },
+  appsContainer: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   appText: {
     color: "white",
   },
   container: {
     flex: 1,
-    paddingTop: 25,
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
   },
   header: {
     fontSize: 28,

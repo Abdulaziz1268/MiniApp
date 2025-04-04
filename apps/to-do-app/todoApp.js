@@ -113,31 +113,37 @@ const ToDoApp = () => {
         </TouchableWithoutFeedback>
       </Modal>
       <View style={styles.todoItem}>
-        <FlatList
-          data={todos}
-          renderItem={({ item }) => {
-            const keyExist = pressed.includes(item.key)
-            return (
-              <TouchableOpacity
-                onPress={() => handlePress(item.key)}
-                style={styles.items}
-              >
-                <View style={styles.itemsContainer}>
-                  <Text style={keyExist ? styles.crossedText : styles.listText}>
-                    {item.text}
-                  </Text>
-                  <MaterialIcons
-                    name="delete"
-                    size={25}
-                    color="black"
-                    style={styles.deleteIcon}
-                    onPress={() => handleDelete(item.key)}
-                  />
-                </View>
-              </TouchableOpacity>
-            )
-          }}
-        />
+        {todos.length > 0 ? (
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => {
+              const keyExist = pressed.includes(item.key)
+              return (
+                <TouchableOpacity
+                  onPress={() => handlePress(item.key)}
+                  style={styles.items}
+                >
+                  <View style={styles.itemsContainer}>
+                    <Text
+                      style={keyExist ? styles.crossedText : styles.listText}
+                    >
+                      {item.text}
+                    </Text>
+                    <MaterialIcons
+                      name="delete"
+                      size={25}
+                      color="black"
+                      style={styles.deleteIcon}
+                      onPress={() => handleDelete(item.key)}
+                    />
+                  </View>
+                </TouchableOpacity>
+              )
+            }}
+          />
+        ) : (
+          <Text style={{ textAlign: "center" }}>No tasks yet</Text>
+        )}
       </View>
       <MaterialIcons
         name="add"
@@ -155,7 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    // justifyContent: "center",
     paddingTop: 50,
   },
   header: {

@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "to-do-app",
-    "slug": "to-do-app",
+    "name": "Mini Apps",
+    "slug": "mini-apps",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,17 +17,17 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.abdulazizmh.todoapp"
+      "package": "com.abdulazizmh.miniapps"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "42b4cb03-3b57-4546-a01c-1233dfec6534"
+        "projectId": "5103de33-4063-4910-96e0-138ae8d6325c"
       }
     },
     "runtimeVersion": {
@@ -35,6 +35,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/42b4cb03-3b57-4546-a01c-1233dfec6534"
-    }
+    },
+    "owner": "abdulazizmh"
   }
 }
