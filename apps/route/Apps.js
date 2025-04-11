@@ -32,6 +32,8 @@ const Apps = ({ navigation }) => {
             console.log(error)
             ToastAndroid.show(error.message, ToastAndroid.SHORT)
           }
+        } else {
+          ToastAndroid.show("You app is up to date", ToastAndroid.SHORT)
         }
       } catch (error) {
         console.log("Error checking for updates", error)
@@ -52,18 +54,21 @@ const Apps = ({ navigation }) => {
       <Text style={styles.header}>Apps</Text>
       <View style={styles.appsContainer}>
         {apps.map((item, index) => (
-          <TouchableOpacity
-            style={styles.app}
-            key={index}
-            onPress={() => navigation.navigate(`${item.name}`)}
-          >
-            <Image
-              source={item.icon}
-              width={100}
-              height={100}
-              style={styles.image}
-            />
-          </TouchableOpacity>
+          <View style={styles.singleAppContainer}>
+            <TouchableOpacity
+              style={styles.app}
+              key={index}
+              onPress={() => navigation.navigate(`${item.name}`)}
+            >
+              <Image
+                source={item.icon}
+                width={100}
+                height={100}
+                style={styles.image}
+              />
+            </TouchableOpacity>
+            <Text style={styles.appName}>{item.name}</Text>
+          </View>
         ))}
       </View>
       <View style={styles.countDown}>
@@ -85,6 +90,9 @@ const styles = StyleSheet.create({
     color: "white",
     overflow: "hidden",
     elevation: 10,
+  },
+  appName: {
+    textAlign: "center",
   },
   appsContainer: {
     flex: 1,
@@ -129,6 +137,9 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
+  },
+  singleAppContainer: {
+    flexDirection: "column",
   },
 })
 
