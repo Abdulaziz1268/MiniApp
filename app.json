@@ -1,5 +1,11 @@
 {
   "expo": {
+    "expo": {
+      "updates": {
+        "enabled": true,
+        "fallbackToCacheTimeout": 0
+      }
+    },
     "name": "Mini Apps",
     "slug": "mini-apps",
     "version": "1.0.0",

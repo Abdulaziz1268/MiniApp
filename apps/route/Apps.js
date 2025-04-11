@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import {
   StyleSheet,
   View,
@@ -18,6 +18,7 @@ const apps = [
 ]
 
 const Apps = ({ navigation }) => {
+  const [cdown, setCdown] = useState(0)
   useEffect(() => {
     const checkForUpdates = async () => {
       try {
@@ -28,21 +29,24 @@ const Apps = ({ navigation }) => {
             await Updates.reloadAsync()
             ToastAndroid.show("successfully updated", ToastAndroid.SHORT)
           } catch (error) {
-            Alert.alert("Update failed!", "please try again later.")
             console.log(error)
-            ToastAndroid.show("update failed", ToastAndroid.SHORT)
+            ToastAndroid.show(error.message, ToastAndroid.SHORT)
           }
         }
       } catch (error) {
         console.log("Error checking for updates", error)
-        ToastAndroid.show(
-          `error checking for updates ${error.message}`,
-          ToastAndroid.SHORT
-        )
+        ToastAndroid.show(error.message, ToastAndroid.SHORT)
       }
     }
     checkForUpdates()
   }, [])
+
+  useEffect(() => {
+    const now = new Date()
+    const graduationDate = new Date("2025-06-22T00:00:00")
+    setCdown(graduationDate - now)
+  }, [])
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Apps</Text>
@@ -61,6 +65,9 @@ const Apps = ({ navigation }) => {
             />
           </TouchableOpacity>
         ))}
+      </View>
+      <View style={styles.countDown}>
+        <Text style={styles.contDownText}>{cdown}</Text>
       </View>
     </View>
   )
@@ -90,6 +97,24 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    position: "relative",
+  },
+  countDown: {
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 25,
+    right: 25,
+    width: 50,
+    height: 50,
+    backgroundColor: "white",
+    elevation: 10,
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "gray",
+  },
+  contDownText: {
+    fontSize: 30,
   },
   header: {
     fontSize: 28,
