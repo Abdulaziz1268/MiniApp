@@ -54,7 +54,7 @@ const Apps = ({ navigation }) => {
       <Text style={styles.header}>Apps</Text>
       <View style={styles.appsContainer}>
         {apps.map((item, index) => (
-          <View style={styles.singleAppContainer}>
+          <View style={styles.singleAppContainer} key={index}>
             <TouchableOpacity
               style={styles.app}
               key={index}
@@ -72,7 +72,14 @@ const Apps = ({ navigation }) => {
         ))}
       </View>
       <View style={styles.countDown}>
-        <Text style={styles.contDownText}>{cdown}</Text>
+        <Text
+          style={[
+            styles.contDownText,
+            { color: cdown <= 15 ? "red" : "black" },
+          ]}
+        >
+          {cdown}
+        </Text>
       </View>
     </View>
   )
