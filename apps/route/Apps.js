@@ -11,6 +11,10 @@ import {
 import TodoIcon from "../../assets/TodoIcon.png"
 import ExpenseIcon from "../../assets/ExpenseIcon.png"
 import * as Updates from "expo-updates"
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from "@react-native-community/datetimepicker"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const apps = [
   { name: "ToDoApp", icon: TodoIcon },
@@ -19,6 +23,9 @@ const apps = [
 
 const Apps = ({ navigation }) => {
   const [cdown, setCdown] = useState(0)
+  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState(new Date())
+
   useEffect(() => {
     const checkForUpdates = async () => {
       try {
@@ -44,10 +51,30 @@ const Apps = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    const now = new Date()
-    const graduationDate = new Date("2025-06-22T00:00:00")
-    setCdown(graduationDate - now)
+    const loadDate = async () => {
+      try {
+        const storedDate = await AsyncStorage.getItem("countDownDate")
+        if (storedDate) {
+          const parsedDate = new Date(storedDate)
+          setDate(parsedDate)
+          setCdown(parsedDate - new Date())
+        }
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+
+    loadDate()
   }, [])
+
+  const onChange = async (event, selectedDate) => {
+    setOpen(false)
+    if (selectedDate) {
+      setDate(selectedDate)
+      await AsyncStorage.setItem("countDownDate", selectedDate.toISOString())
+      setCdown(selectedDate - new Date())
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -71,16 +98,26 @@ const Apps = ({ navigation }) => {
           </View>
         ))}
       </View>
-      <View style={styles.countDown}>
+
+      {/*  count down */}
+      <TouchableOpacity style={styles.countDown} onPress={() => setOpen(true)}>
         <Text
           style={[
             styles.contDownText,
-            { color: cdown <= 15 ? "red" : "black" },
+            { color: cdown <= 3 * 86400000 ? "red" : "black" },
           ]}
         >
-          {cdown}
+          {Math.max(Math.ceil(cdown / 86400000), 0)}
         </Text>
-      </View>
+      </TouchableOpacity>
+      {open && (
+        <DateTimePicker
+          display="spinner"
+          value={date}
+          mode="date"
+          onChange={onChange}
+        />
+      )}
     </View>
   )
 }

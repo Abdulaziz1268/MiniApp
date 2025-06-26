@@ -9,17 +9,28 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  useWindowDimensions,
   View,
 } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { Formik } from "formik"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { Modalize } from "react-native-modalize"
+import { useRef } from "react"
 
 const ToDoApp = () => {
   const [todos, setTodos] = useState([])
   const [modal, setModal] = useState(false)
   const [pressed, setPressed] = useState([])
   const [crossed, setCrossed] = useState(false)
+  const modalRef = useRef(null)
+
+  const { height } = useWindowDimensions()
+  const modalHeight = (height * 80) / 100
+
+  const onOpen = () => {
+    modalRef.current?.open()
+  }
 
   const saveData = async (key, value) => {
     try {
@@ -60,18 +71,13 @@ const ToDoApp = () => {
       <StatusBar style="auto" />
       <Text style={styles.header}>Daily Activity</Text>
 
-      <Modal visible={modal} animationType="slide">
+      <Modalize
+        ref={modalRef}
+        modalHeight={modalHeight}
+        handlePosition="outside"
+      >
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.modalContainer}>
-            <View style={styles.closeContainer}>
-              <MaterialIcons
-                name="close"
-                style={styles.closeIcon}
-                size={34}
-                color="black"
-                onPress={() => setModal(false)}
-              />
-            </View>
             <Text style={styles.inputHeader}>Input activity</Text>
 
             <Formik
@@ -111,7 +117,7 @@ const ToDoApp = () => {
             </Formik>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
+      </Modalize>
       <View style={styles.todoItem}>
         {todos.length > 0 ? (
           <FlatList
@@ -150,7 +156,7 @@ const ToDoApp = () => {
         size={30}
         color="lightgray"
         style={styles.addButton}
-        onPress={() => setModal(true)}
+        onPress={onOpen}
       />
     </View>
   )
