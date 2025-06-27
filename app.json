@@ -42,6 +42,9 @@
     "updates": {
       "url": "https://u.expo.dev/5103de33-4063-4910-96e0-138ae8d6325c"
     },
-    "owner": "abdulazizmh"
+    "owner": "abdulazizmh",
+    "plugins": [
+      "expo-sqlite"
+    ]
   }
 }

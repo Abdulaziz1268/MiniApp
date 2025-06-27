@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 const apps = [
   { name: "ToDoApp", icon: TodoIcon },
   { name: "ExpenseApp", icon: ExpenseIcon },
+  { name: "SqlitePractice", icon: ExpenseIcon },
 ]
 
 const Apps = ({ navigation }) => {
